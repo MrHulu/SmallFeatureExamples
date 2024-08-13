@@ -1,0 +1,117 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}//install/${presetName}",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            }
+        },
+        {
+            "name": "debug-x64",
+            "displayName": "Debug Build - x64",
+            "description": "Debug build with debug (x64) symbols",
+            "inherits": "base",
+            "architecture":{
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-x64",
+            "displayName": "Release Build - x64",
+            "description": "Optimized build without debug (x64) symbols",
+            "inherits": "debug-x64",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "relWithDebInfo-x64",
+            "displayName": "Release with Debug Info - x64",
+            "description": "Optimized build with limited debug (x64) symbols",
+            "inherits": "debug-x64",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "debug-x86",
+            "displayName": "Debug Build - x86",
+            "description": "Debug build with debug (x86) symbols",
+            "inherits": "base",
+            "architecture":{
+                "value": "x86",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-x86",
+            "displayName": "Release Build - x86",
+            "description": "Optimized build without debug (x86) symbols",
+            "inherits": "debug-x86",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "relWithDebInfo-x86",
+            "displayName": "Release with Debug Info - x86",
+            "description": "Optimized build with limited debug (x86) symbols",
+            "inherits": "debug-x86",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug-x64",
+            "displayName": "Debug Build - x64",
+            "configurePreset": "debug-x64",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-x64",
+            "displayName": "Release Build - x64",
+            "configurePreset": "release-x64",
+            "configuration": "Release"
+        },
+        {
+            "name": "relWithDebInfo-x64",
+            "displayName": "Release with Debug Info - x64",
+            "configurePreset": "relWithDebInfo-x64",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "debug-x86",
+            "displayName": "Debug Build - x86",
+            "configurePreset": "debug-x86",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-x86",
+            "displayName": "Release Build - x86",
+            "configurePreset": "release-x86",
+            "configuration": "Release"
+        },
+        {
+            "name": "relWithDebInfo-x86",
+            "displayName": "Release with Debug Info - x86",
+            "configurePreset": "relWithDebInfo-x86",
+            "configuration": "RelWithDebInfo"
+        }
+    ]
+}
