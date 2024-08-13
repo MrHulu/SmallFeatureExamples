@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# 如果src目录下存在修改的文件就运行Python脚本
+changes_files=$(git diff --name-only --relative=src)
+if [ -n "$changes_files" ] ;then
+  echo "$changes_files" files changed, running build script...
+  python  scripts/build.py
+  if [ $? -ne 0 ]; then
+      echo "Build failed. Aborting commit."
+      exit 1
+  fi
+else
+    echo "Skipping build: no changes in src directory."
+fi
+
+# 允许继续
+exit 0
