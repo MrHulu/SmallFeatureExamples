@@ -2,9 +2,14 @@
 #include <QJSEngine>
 #include <QtConcurrent>
 
+
 // 构造函数
-ControllerControl::ControllerControl(QObject *parent)
-    : QObject(parent), m_futureWatcher(new QFutureWatcher<bool>(this))
+ControllerControl::ControllerControl(QObject *parent, QVariant data, size_t size, quint16 timeout)
+    : QObject(parent)
+    , m_data(data)
+    , m_size(size)
+    , m_timeout(timeout)
+    , m_futureWatcher(new QFutureWatcher<bool>(this))
 {
     // 连接 futureWatcher 的完成信号到 lambda 函数
     // 当异步操作完成时，发出 controlResultReady 信号
@@ -21,7 +26,7 @@ ControllerControl::~ControllerControl()
 }
 
 // 发送控制信号并返回一个 Promise
-QJSValue ControllerControl::sendControlSignal()
+QJSValue ControllerControl::control()
 {
     // 获取当前的 JavaScript 引擎
     QJSEngine *engine = qjsEngine(this);
@@ -43,28 +48,36 @@ QJSValue ControllerControl::sendControlSignal()
     )").call(QJSValueList() << promiseResolverJS);
 
     QtConcurrent::run([this, resolver]() {
-        emit controlSignalSent();
 
+        if(m_status == Pending) {
+            resolver->reject(QJSValue("控制操作正在进行中 "));
+            resolver->deleteLater();
+            return;
+        }
+        setStatus(Pending);
+        emit requestControl(m_data, m_size);
         QEventLoop loop;
         QTimer timer;
         timer.setSingleShot(true);
         bool result = false;
         connect(&timer, &QTimer::timeout, &loop, [&]() {
             result = false;
+            setStatus(Failure);
             loop.quit();
         }); // 超时处理
         connect(this, &ControllerControl::controlResultReady, &loop, [&](bool success) {
             result = success;
+            setStatus(result ? Success : Failure);
             loop.quit();
         });
-        timer.start(5000); // 5 秒超时
+        timer.start(m_timeout);
         loop.exec();
 
         QTimer::singleShot(0, this, [resolver, result]() {
             if (result) {
                 resolver->resolve(QJSValue(true));
             } else {
-                resolver->reject(QJSValue("控制操作失败"));
+                resolver->reject(QJSValue("控制操作失败 "));
             }
             resolver->deleteLater();
         });
@@ -74,7 +87,7 @@ QJSValue ControllerControl::sendControlSignal()
 }
 
 // 接收控制结果的槽函数
-void ControllerControl::receiveControlResult(const QByteArray &result)
+void ControllerControl::receiveControlResult(const QVariant &result)
 {
     // 异步处理控制结果
     QFuture<bool> future = QtConcurrent::run(this, &ControllerControl::processControlResult, result);
@@ -82,8 +95,8 @@ void ControllerControl::receiveControlResult(const QByteArray &result)
 }
 
 // 处理控制结果的私有方法
-bool ControllerControl::processControlResult(const QByteArray &result)
+bool ControllerControl::processControlResult(const QVariant &result)
 {
-    // 这里应该根据实际需求处理结果
-    return !result.isEmpty();
+    return result.toBool();
 }
+

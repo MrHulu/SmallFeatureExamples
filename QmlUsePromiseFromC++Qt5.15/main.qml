@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import ControllerControl 1.0
 
 Window {
     id: root
@@ -12,13 +13,10 @@ Window {
     Button {
         id: sendControlSignalButton
         anchors.centerIn: parent        
-        text: "Send Control Signal"
-        
-        property bool ok: false
-        
+        text: "Send Control Signal"    
+        highlighted: controllerControl.status !== ControllerControl.Pending
         onClicked: {
-            sendControlSignalButton.enabled = false;
-            controllerControl.sendControlSignal()
+            controllerControl.control()
                 .then(function() {
                     console.log("Control operation succeeded");
                     ok = true;
@@ -34,7 +32,7 @@ Window {
         id: statusLabel
         anchors.top: sendControlSignalButton.bottom
         anchors.horizontalCenter: sendControlSignalButton.horizontalCenter
-        text: "Status: " + (sendControlSignalButton.ok ? "OK" : "Failed")
+        text: "Status: " + (controllerControl.status)
     }
 
 }

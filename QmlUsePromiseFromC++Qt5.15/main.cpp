@@ -13,14 +13,15 @@
 
     QTimer timer;
     ControllerControl cc;
-    QObject::connect(&cc, &ControllerControl::controlSignalSent, &timer, [&]() {
+    QObject::connect(&cc, &ControllerControl::requestControl, &timer, [&](auto data, auto size) {
         timer.start(2000);
         qDebug() << "控制信号已发送 " ;
     });
     QObject::connect(&timer, &QTimer::timeout, &cc, [&]() {
         // cc.receiveControlResult("success");
-        cc.receiveControlResult(QByteArray());
+        cc.receiveControlResult(false);
     });
+    qmlRegisterType<ControllerControl>("ControllerControl", 1, 0, "ControllerControl");
     engine.rootContext()->setContextProperty("controllerControl", &cc);
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
