@@ -10,29 +10,42 @@ Window {
     visible: true
     title: qsTr("Hulu")
 
+
+    Switch {
+        id: switchControl
+        anchors.bottom: sendControlSignalButton.top
+        anchors.horizontalCenter: sendControlSignalButton.horizontalCenter
+        text: checked ? "Qml示例 " : "C++示例 "
+        checked: true
+    }    
     Button {
         id: sendControlSignalButton
-        anchors.centerIn: parent        
-        text: "Send Control Signal"    
+        anchors.centerIn: parent
+        text: "Control"    
         highlighted: controllerControl.status !== ControllerControl.Pending
         onClicked: {
-            controllerControl.control()
-                .then(function() {
-                    console.log("Control operation succeeded");
-                    ok = true;
-                    sendControlSignalButton.enabled = true;
-                }, function(error) {
-                    console.error("Control operation failed:", error);
-                    ok = false;
-                    sendControlSignalButton.enabled = true;
-                });
+            if(switchControl.checked) {
+                controllerControl.control()
+                    .then(function() {
+                        console.log("Control operation succeeded");
+                        ok = true;
+                        sendControlSignalButton.enabled = true;
+                    }, function(error) {
+                        console.error("Control operation failed:", error);
+                        ok = false;
+                        sendControlSignalButton.enabled = true;
+                    });
+            }else {
+                test.test()
+            }
         }
     }
     Label {
         id: statusLabel
         anchors.top: sendControlSignalButton.bottom
         anchors.horizontalCenter: sendControlSignalButton.horizontalCenter
-        text: "Status: " + (controllerControl.status)
+        text: switchControl.checked ? "ControllerControl Status: " + (controllerControl.status) : "Test reslut: " + (test.result)
     }
+    
 
 }

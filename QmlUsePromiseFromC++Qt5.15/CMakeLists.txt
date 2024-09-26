@@ -15,6 +15,7 @@ endif()
 add_executable(QmlUsePromiseFromC++)
 target_sources(QmlUsePromiseFromC++ PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Test.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ControllerControl.h
     ${CMAKE_CURRENT_SOURCE_DIR}/ControllerControl.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/qml.qrc

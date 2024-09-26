@@ -5,6 +5,21 @@
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QJSValue>
+
+
+class PromiseResolver : public QObject
+{
+    Q_OBJECT
+public:
+    explicit PromiseResolver(QObject *parent = nullptr) : QObject(parent) {}
+    Q_INVOKABLE void resolve(const QJSValue &value) { emit resolved(value); }
+    Q_INVOKABLE void reject(const QJSValue &reason) { emit rejected(reason); }
+signals:
+    void resolved(const QJSValue &value);
+    void rejected(const QJSValue &reason);
+};
+
+
 class ControllerControl : public QObject
 {
     Q_OBJECT
@@ -29,11 +44,12 @@ private:
     Status m_status = Idle;
 
 public:
-    explicit ControllerControl(QObject *parent = nullptr, QVariant data = QByteArray(), size_t size = 0, quint16 timeout = 5000);
+    explicit ControllerControl(QObject *parent = nullptr, QVariant data = 0, quint16 timeout = 5000);
     ~ControllerControl();
 
     Q_INVOKABLE QJSValue control();
-    Q_SIGNAL void requestControl(QVariant data = QByteArray(), int size = 0);
+    QFuture<bool> controlcpp();
+    Q_SIGNAL void requestControl(QVariant data = 0);
 
 private:
     Q_SIGNAL void controlResultReady(bool success);
@@ -43,23 +59,8 @@ public slots:
 
 private:
     QFutureWatcher<bool> *m_futureWatcher;
-    QVariant m_data = QByteArray();
-    size_t m_size = 0;
+    PromiseResolver *m_resolver = nullptr;
+    QVariant m_data = 0;
     quint16 m_timeout = 5000;
     bool processControlResult(const QVariant &result);
-};
-
-
-
-
-class PromiseResolver : public QObject
-{
-    Q_OBJECT
-public:
-    explicit PromiseResolver(QObject *parent = nullptr) : QObject(parent) {}
-    Q_INVOKABLE void resolve(const QJSValue &value) { emit resolved(value); }
-    Q_INVOKABLE void reject(const QJSValue &reason) { emit rejected(reason); }
-signals:
-    void resolved(const QJSValue &value);
-    void rejected(const QJSValue &reason);
 };
