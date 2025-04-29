@@ -22,6 +22,7 @@
 | **[CrashpadExample](#crashpadexample)** | 如何集成和使用 Crashpad 进行崩溃报告 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/139653298) | [项目链接](./CrashpadExample) |
 | **[GitHooksExample](#githooksexample)** | 使用 Git Hooks 自动化开发工作流程 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/140265279) | [项目链接](./GitHooksExample) |
 | **[QQmlPropertyMapExample](#qqmlpropertyMapexample)** | 使用 QQmlPropertyMap 与Qml交互 | 无 | [项目链接](./QQmlPropertyMapExample) |
+| **[QSqlOperationExample](#qsqloperationexample)** | 基于Qt的SQLite数据库操作工具模块 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/140986325) | [项目链接](./QSqlOperationExample) |
 
 
 ## 📂 示例项目
@@ -83,6 +84,15 @@
 
 🔗 **相关链接**：
 - [访问项目](./QQmlPropertyMapExample)
+
+---
+
+### QSqlOperationExample
+💾 **项目描述**：此项目提供了一个基于Qt的SQLite数据库操作工具模块，实现了Repository模式和简单的ORM功能，使得在Qt应用中进行数据库操作变得简单高效。
+
+🔗 **相关链接**：
+- [阅读博客文章](https://blog.csdn.net/qq_41898196/article/details/140986325)
+- [访问项目](./QSqlOperationExample)
 
 ---
 
