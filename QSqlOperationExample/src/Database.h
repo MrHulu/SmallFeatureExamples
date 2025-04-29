@@ -18,6 +18,7 @@ class SqliteDatabase {
 public:
     // 创建或打开数据库连接
     static SqliteDatabase create(const QString& connectionName, const QString& dbFilePath);
+    ~SqliteDatabase();
     
     // 判断数据库是否已打开
     bool isOpen() const;

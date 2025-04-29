@@ -23,15 +23,26 @@ SqliteDatabase SqliteDatabase::create(const QString& connectionName, const QStri
     return db;
 }
 
+SqliteDatabase::~SqliteDatabase()
+{
+    m_query.clear();
+    if (!m_db.connectionName().isEmpty()) {
+        if (m_db.isOpen()) {
+            m_db.close();
+        }
+        // QSqlDatabase::removeDatabase(m_db.connectionName());
+    }
+}
+
 bool SqliteDatabase::isOpen() const {
     return m_db.isOpen();
 }
 
 void SqliteDatabase::close() {
+    m_query.clear();
     if (isOpen()) {
         m_db.close();
     }
-    QSqlDatabase::removeDatabase(m_db.connectionName());
 }
 
 bool SqliteDatabase::beginTransaction() {
