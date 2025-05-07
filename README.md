@@ -1,4 +1,3 @@
-
 # SmallFeatureExamples 🎯
 
 
@@ -21,6 +20,7 @@
 | **[ControlVideoExample](#controlvideoexample)** | QML中的视频控制和处理技术演示 | 无 | [项目链接](./ControlVideoExample) |
 | **[CrashpadExample](#crashpadexample)** | 如何集成和使用 Crashpad 进行崩溃报告 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/139653298) | [项目链接](./CrashpadExample) |
 | **[GitHooksExample](#githooksexample)** | 使用 Git Hooks 自动化开发工作流程 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/140265279) | [项目链接](./GitHooksExample) |
+| **[JsonContentTranslation](#jsoncontenttranslation)** | JSON内容国际化翻译解决方案 | 无 | [项目链接](./JsonContentTranslation) |
 | **[QQmlPropertyMapExample](#qqmlpropertyMapexample)** | 使用 QQmlPropertyMap 与Qml交互 | 无 | [项目链接](./QQmlPropertyMapExample) |
 | **[QSqlOperationExample](#qsqloperationexample)** | 基于Qt的SQLite数据库操作工具模块 | [博客文章](https://blog.csdn.net/qq_41898196/article/details/140986325) | [项目链接](./QSqlOperationExample) |
 
@@ -76,6 +76,14 @@
 🔗 **相关链接**：
 - [阅读博客文章](https://blog.csdn.net/qq_41898196/article/details/140265279)
 - [访问项目](./GitHooksExample)
+
+---
+
+### JsonContentTranslation
+🌐 **项目描述**：此示例提供了一个灵活的JSON内容国际化翻译解决方案，帮助开发者轻松实现多语言应用程序。项目展示了如何管理、加载和动态切换不同语言的内容。
+
+🔗 **相关链接**：
+- [访问项目](./JsonContentTranslation)
 
 ---
 
